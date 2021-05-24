@@ -17,7 +17,7 @@ def on_event():
     r = requests.get("https://chat.googleapis.com/v1/spaces/AAAACPVl0EY/messages/")
     text = str(r.content)[:200]
   else:
-    return
+    return str(event)
   return json.jsonify({'text': text})
 
 
