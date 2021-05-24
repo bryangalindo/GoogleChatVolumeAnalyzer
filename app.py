@@ -2,7 +2,7 @@
 """Example bot that returns a synchronous response."""
 
 from flask import Flask, request, json
-
+import requests
 
 app = Flask(__name__)
 
@@ -14,7 +14,8 @@ def on_event():
   if event['type'] == 'ADDED_TO_SPACE' and not event['space']['singleUserBotDm']:
     text = 'Thanks for adding me to "%s"!' % (event['space']['displayName'] if event['space']['displayName'] else 'this chat')
   elif event['type'] == 'MESSAGE':
-    text = 'You said: `%s`' % event['message']['text']
+    r = requests.get("https://chat.googleapis.com/v1/spaces/AAAACPVl0EY/messages/")
+    text = str(r.content)[:200]
   else:
     return
   return json.jsonify({'text': text})
