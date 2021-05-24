@@ -15,7 +15,7 @@ def on_event():
     text = 'Thanks for adding me to "%s"!' % (event['space']['displayName'] if event['space']['displayName'] else 'this chat')
   elif event['type'] == 'MESSAGE':
     r = requests.get("https://chat.googleapis.com/v1/spaces/AAAACPVl0EY/messages/")
-    text = str(r.content)[:200]
+    text = str(r.content)
   else:
     return str(event)
   return json.jsonify({'text': text})
