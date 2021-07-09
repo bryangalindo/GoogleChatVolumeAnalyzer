@@ -11,10 +11,8 @@ app = Flask(__name__)
 def on_event():
   """Handles an event from Google Chat."""
   event = request.get_json()
-  if event['type'] == 'ADDED_TO_SPACE' and not event['space']['singleUserBotDm']:
-    text = event
-  elif event['type'] == 'MESSAGE':
-    text = event
+  if event['type'] == 'MESSAGE':
+    text = str(event)
   else:
     return str(event)
   return json.jsonify({'text': text})
