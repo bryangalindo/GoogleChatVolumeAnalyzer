@@ -14,8 +14,7 @@ def on_event():
   if event['type'] == 'ADDED_TO_SPACE' and not event['space']['singleUserBotDm']:
     text = event
   elif event['type'] == 'MESSAGE':
-    r = requests.get("https://chat.googleapis.com/v1/spaces/AAAACPVl0EY/messages/")
-    text = str(r.content)
+    text = event
   else:
     return str(event)
   return json.jsonify({'text': text})
