@@ -12,7 +12,7 @@ def on_event():
   """Handles an event from Google Chat."""
   event = request.get_json()
   if event['type'] == 'ADDED_TO_SPACE' and not event['space']['singleUserBotDm']:
-    text = 'Thanks for adding me to "%s"!' % (event['space']['displayName'] if event['space']['displayName'] else 'this chat')
+    text = event
   elif event['type'] == 'MESSAGE':
     r = requests.get("https://chat.googleapis.com/v1/spaces/AAAACPVl0EY/messages/")
     text = str(r.content)
