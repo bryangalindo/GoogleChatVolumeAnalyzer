@@ -1,0 +1,4 @@
+pipfile*
+token.json
+credentials.json
+.env
