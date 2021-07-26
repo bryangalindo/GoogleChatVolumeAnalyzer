@@ -30,3 +30,6 @@ class TestFlattenListFunction:
     def test_int_value(self):
         with pytest.raises(TypeError):
             helpers.flatten_list(6)
+    
+    def test_empty_list(self):
+        assert helpers.flatten_list([]) == None

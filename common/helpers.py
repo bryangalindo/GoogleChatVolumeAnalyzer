@@ -10,5 +10,7 @@ def flatten_list(_list: list) -> list:
     if _list is not None and _list != '':
         if type(_list) == int:
             raise TypeError(1)
+        elif len(_list) == 0:
+            return 
         else:
             return list(chain.from_iterable(_list))
