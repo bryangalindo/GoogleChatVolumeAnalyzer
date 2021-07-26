@@ -2,20 +2,32 @@
 """Example bot that returns a synchronous response."""
 
 from flask import Flask, request, json
-import requests
+
+from common import (constants, helpers)
+from models import (GoogleCredentials, GoogleService)
 
 app = Flask(__name__)
 
+def update_google_spreadsheet(record):
+    scopes = [constants.READ_WRITE_SCOPE]
+    creds = GoogleCredentials(constants.TOKEN_JSON_FILE, constants.CREDENTIALS_JSON_FILE, scopes)
+    creds = creds.get_oauth_credentials()
+    service = GoogleService(creds, constants.GOOGLE_PRODUCT, constants.PRODUCT_VERSION)
+    body = helpers.create_values_dict([record])
+    service.insert_row_into_spreadsheet(
+        body, 
+        constants.SPREADSHEET_ID, 
+        constants.SHEET_RANGE, 
+        constants.VALUE_INPUT_OPTION
+        )
 
 @app.route('/', methods=['POST'])
 def on_event():
-  """Handles an event from Google Chat."""
-  event = request.get_json()
-  if event['type'] == 'MESSAGE':
+    """Handles an event from Google Chat."""
+    event = request.get_json()
     text = str(event)
-  else:
-    return str(event)
-  return json.jsonify({'text': text})
+    update_google_spreadsheet(text)
+    return json.jsonify({'text': text})
     
 
 if __name__ == '__main__':
