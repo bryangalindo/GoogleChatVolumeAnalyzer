@@ -1,7 +1,14 @@
 from common import (constants, helpers)
+from models.GoogleCredentials import GoogleCredentials
+from models.GoogleService import GoogleService
 
 
-def is_first_responder(service, thread_id):
+scopes = [constants.READ_WRITE_SCOPE]
+creds = GoogleCredentials(constants.TOKEN_JSON_FILE, constants.CREDENTIALS_JSON_FILE, scopes)
+creds = creds.get_oauth_credentials()
+service = GoogleService(creds, constants.GOOGLE_PRODUCT, constants.PRODUCT_VERSION)
+
+def is_first_responder(thread_id):
     threads = service.read_single_range(constants.SPREADSHEET_ID, constants.THREAD_ID_SHEET_RANGE)
     thread_id_list = helpers.flatten_list(threads)
     if thread_id in thread_id_list:
@@ -9,7 +16,7 @@ def is_first_responder(service, thread_id):
     else:
         return True
 
-def create_filtered_dict(service, _dict):
+def create_filtered_dict(_dict):
     room_path_list = _dict['message']['thread']['name'].split('/')
     thread_id = room_path_list[3]
     room_id = room_path_list[1]
@@ -24,7 +31,7 @@ def create_filtered_dict(service, _dict):
         'is_first_responder': responder_flag
     }
 
-def update_google_spreadsheet(service, record):
+def update_google_spreadsheet(record):
     body = helpers.create_values_dict([record])
     service.insert_row_into_spreadsheet(
         body, 
