@@ -16,5 +16,13 @@ class GoogleService:
             valueInputOption=value_input_option,
             body=body,).execute()
         
+    def read_single_range(self, spreadsheet_id, sheet_range):
+        self.__create_service()
+        result = self.service.spreadsheets().values().get(
+            spreadsheetId=spreadsheet_id, 
+            range=sheet_range).execute()
+        rows = result.get('values', [])
+        print('{0} rows retrieved.'.format(len(rows)))
+        
     def __create_service(self):
         self.service = build(self.product, self.version, credentials=self.credentials)
