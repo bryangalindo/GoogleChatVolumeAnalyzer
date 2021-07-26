@@ -28,7 +28,7 @@ def on_event():
         filtered_event_dict['is_first_responder'],
         filtered_event_dict['timestamp'],
         ]
-    u.update_google_spreadsheet(values)
+    u.update_google_spreadsheet(service, values)
     return json.jsonify({'text': str(event_dict)})
     
 if __name__ == '__main__':
