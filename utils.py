@@ -9,11 +9,11 @@ def is_first_responder(service, thread_id):
     else:
         return True
 
-def create_filtered_dict(_dict):
+def create_filtered_dict(service, _dict):
     room_path_list = _dict['message']['thread']['name'].split('/')
     thread_id = room_path_list[3]
     room_id = room_path_list[1]
-    responder_flag = is_first_responder(thread_id)
+    responder_flag = is_first_responder(service, thread_id)
     return {
         'timestamp': _dict['eventTime'],
         'email': _dict['message']['sender']['email'],
