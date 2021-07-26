@@ -2,7 +2,7 @@ import pytest
 from common import helpers
 
 
-_STRING = "Test"
+_LIST = ["Test"]
 _NULL = None
 _INT = 6
 EMPTY_LIST = []
@@ -11,14 +11,14 @@ NESTED_LIST = [["Test 1"], ["Test 2"]]
 
 class TestCreateValuesDictFunction:
     def test_valid_values(self):
-        _dict = helpers.create_values_dict(_STRING)
-        assert _dict == {'values': _STRING}
+        _dict = helpers.create_values_dict(_LIST)
+        assert _dict == {'values': _LIST}
         
     def test_null_value(self):
         _dict = helpers.create_values_dict(_NULL)
         assert _dict == {'values': _NULL}
         
-    def test_blank_value(self):
+    def test_empty_string(self):
         _dict = helpers.create_values_dict(EMPTY_STRING)
         assert _dict == {'values': EMPTY_STRING}
 
