@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-"""Example bot that returns a synchronous response."""
-
 from flask import Flask, request, json
 
 from common import (constants, helpers)
