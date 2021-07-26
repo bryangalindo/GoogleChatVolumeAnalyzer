@@ -22,7 +22,7 @@ class GoogleService:
             spreadsheetId=spreadsheet_id, 
             range=sheet_range).execute()
         rows = result.get('values', [])
-        print('{0} rows retrieved.'.format(len(rows)))
+        return rows
         
     def __create_service(self):
         self.service = build(self.product, self.version, credentials=self.credentials)
