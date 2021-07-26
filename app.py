@@ -31,6 +31,5 @@ def on_event():
     u.update_google_spreadsheet(values)
     return json.jsonify({'text': str(event_dict)})
     
-
 if __name__ == '__main__':
     app.run(port=8080, debug=True)
