@@ -44,7 +44,7 @@ def on_event():
         filtered_event_dict['room_name'],
         filtered_event_dict['room_thread'],
         filtered_event_dict['message'],
-        filtered_event_dict['timestamp']
+        filtered_event_dict['timestamp'],
         ]
     update_google_spreadsheet(values)
     return json.jsonify({'text': event_dict})
