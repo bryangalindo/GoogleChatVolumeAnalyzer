@@ -47,7 +47,7 @@ def on_event():
         filtered_event_dict['timestamp'],
         ]
     update_google_spreadsheet(values)
-    return json.jsonify({'text': event_dict})
+    return json.jsonify({'text': str(event_dict)})
     
 
 if __name__ == '__main__':
