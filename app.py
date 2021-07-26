@@ -18,6 +18,8 @@ service = GoogleService(creds, constants.GOOGLE_PRODUCT, constants.PRODUCT_VERSI
 def is_first_responder(thread_id):
     threads = service.read_single_range(constants.SPREADSHEET_ID, constants.THREAD_ID_SHEET_RANGE)
     thread_id_list = helpers.flatten_list(threads)
+    print(thread_id_list)
+    print(thread_id)
     if thread_id in thread_id_list:
         return True
     else:
