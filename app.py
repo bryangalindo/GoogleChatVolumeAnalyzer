@@ -27,7 +27,7 @@ def create_filtered_dict(_dict):
     room_path_list = _dict['message']['thread']['name'].split('/')
     thread_id = room_path_list[3]
     room_id = room_path_list[1]
-    is_first_responder = is_first_responder(thread_id)
+    is_first_responder = app.is_first_responder(thread_id)
     return {
         'timestamp': _dict['eventTime'],
         'email': _dict['message']['sender']['email'],
