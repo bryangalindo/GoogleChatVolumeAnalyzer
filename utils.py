@@ -15,7 +15,7 @@ def is_first_responder(thread_id: str, threads: list) -> bool:
         if thread_id_list:
             return helpers.string_is_unique(thread_id, thread_id_list)
 
-def create_filtered_dict(_dict):
+def create_filtered_dict(_dict: dict) -> dict:
     room_path_list = _dict['message']['thread']['name'].split('/')
     thread_id = room_path_list[3]
     room_id = room_path_list[1]
