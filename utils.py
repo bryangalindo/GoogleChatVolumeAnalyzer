@@ -16,20 +16,19 @@ def is_first_responder(thread_id: str, threads: list) -> bool:
             return helpers.string_is_unique(thread_id, thread_id_list)
 
 def create_filtered_dict(_dict: dict) -> dict:
-    if _dict.get('type') == 'MESSAGE':
-        room_path_list = _dict['message']['thread']['name'].split('/')
-        thread_id = room_path_list[3]
-        room_id = room_path_list[1]
-        responder_flag = is_first_responder(thread_id, threads)
-        return {
-            'timestamp': _dict['eventTime'],
-            'email': _dict['message']['sender']['email'],
-            'room_id': room_id,
-            'thread_id': thread_id,
-            'room_name': _dict['message']['space']['displayName'],
-            'message': _dict['message']['argumentText'],
-            'is_first_responder': responder_flag
-        }
+    room_path_list = _dict['message']['thread']['name'].split('/')
+    thread_id = room_path_list[3]
+    room_id = room_path_list[1]
+    responder_flag = is_first_responder(thread_id, threads)
+    return {
+        'timestamp': _dict['eventTime'],
+        'email': _dict['message']['sender']['email'],
+        'room_id': room_id,
+        'thread_id': thread_id,
+        'room_name': _dict['message']['space']['displayName'],
+        'message': _dict['message']['argumentText'],
+        'is_first_responder': responder_flag
+    }
 
 def update_google_spreadsheet(record):
     body = helpers.create_values_dict([record])
