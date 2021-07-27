@@ -14,7 +14,7 @@ def create_values_dict(values: list) -> dict:
     }
 
 def flatten_list(_list: list) -> list:
-    if _list is not None and _list != '':
+    if _list:
         if type(_list) == int:
             raise TypeError(1)
         elif len(_list) == 0:
