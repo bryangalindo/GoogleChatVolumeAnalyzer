@@ -1,6 +1,10 @@
 from itertools import chain
 
 
+def is_nested_list(_list: list) -> bool:
+    if _list:
+        return any(isinstance(i, list) for i in _list)
+
 def string_is_unique(_string: str, _list: list) -> bool:
     if _string and _list:
         if _string in _list:
@@ -20,4 +24,7 @@ def flatten_list(_list: list) -> list:
         elif len(_list) == 0:
             return 
         else:
-            return list(chain.from_iterable(_list))
+            list_is_nested = is_nested_list(_list)
+            if list_is_nested:
+                return list(chain.from_iterable(_list))
+        
