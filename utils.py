@@ -9,13 +9,11 @@ creds = creds.get_oauth_credentials()
 service = GoogleService(creds, constants.GOOGLE_PRODUCT, constants.PRODUCT_VERSION)
 threads = service.read_single_range(constants.SPREADSHEET_ID, constants.THREAD_ID_SHEET_RANGE)
 
-def is_first_responder(thread_id: str, threads: list(list)) -> bool:
+def is_first_responder(thread_id: str, threads: list) -> bool:
     if threads and thread_id:
         thread_id_list = helpers.flatten_list(threads)
-        if thread_id in thread_id_list:
-            return False
-        else:
-            return True
+        if thread_id_list:
+            return helpers.string_is_unique(thread_id, threads)
 
 def create_filtered_dict(_dict):
     room_path_list = _dict['message']['thread']['name'].split('/')
