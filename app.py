@@ -42,9 +42,8 @@ def on_event():
         u.update_google_spreadsheet(values)
         text = "Got you down as a {}!".format('first responder' if filtered_event_dict['is_first_responder'] == True else 'participator')
     else:
-        return 
+        return "It's been real"
     return json.jsonify({'text': text})
     
 if __name__ == '__main__':
-    print("Hello")
     app.run(port=8000, debug=True)
