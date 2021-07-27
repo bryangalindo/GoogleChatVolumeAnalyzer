@@ -26,8 +26,8 @@ app = Flask(__name__)
 def on_event():
     """Handles an event from Google Chat."""
     event = request.get_json()
-    if event['type'] == 'ADDED_TO_SPACE' and not event['space']['singleUserBotDm']:
-        text = 'Thanks for adding me to "%s"!' % (event['space']['displayName'] if event['space']['displayName'] else 'this chat')
+    if event['type'] == 'ADDED_TO_SPACE':
+        text = 'Thanks for adding me to *%s*!' % (event['space']['displayName'] if event['space']['displayName'] else 'this chat')
     elif event['type'] == 'MESSAGE':
         filtered_event_dict = u.create_filtered_dict(event)
         values = [
@@ -40,7 +40,7 @@ def on_event():
             filtered_event_dict['timestamp'],
             ]
         u.update_google_spreadsheet(values)
-        text = 'Your message has been recorded as "%s"' % ('first responder' if filtered_event_dict['is_first_responder'] else 'participator')
+        text = "Got you down as a {}!".format('first responder' if filtered_event_dict['is_first_responder'] == True else 'participator')
     else:
         return 
     return json.jsonify({'text': text})
