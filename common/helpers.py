@@ -1,6 +1,12 @@
 from itertools import chain
 
 
+def string_is_unique(_string, _list):
+    if _string in _list:
+        return False
+    else:
+        return True
+
 def create_values_dict(values: list) -> dict:
     return {
         'values': values,
