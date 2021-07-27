@@ -26,13 +26,4 @@ def flatten_list(_list: list) -> list:
         else:
             list_is_nested = is_nested_list(_list)
             if list_is_nested:
-                return list(chain.from_iterable(_list))
-            
-def safeget(_dict, *keys):
-    for key in keys:
-        try:
-            _dict = _dict[key]
-        except KeyError:
-            return None
-    return _dict
-        
+                return list(chain.from_iterable(_list))       
