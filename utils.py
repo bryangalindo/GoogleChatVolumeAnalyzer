@@ -12,6 +12,8 @@ threads = service.read_single_range(constants.SPREADSHEET_ID, constants.THREAD_I
 def is_first_responder(thread_id: str, threads: list) -> bool:
     if threads and thread_id:
         thread_id_list = helpers.flatten_list(threads)
+        print(thread_id)
+        print(thread_id_list)
         if thread_id_list:
             return helpers.string_is_unique(thread_id, threads)
 
