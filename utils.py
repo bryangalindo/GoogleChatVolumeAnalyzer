@@ -7,7 +7,7 @@ scopes = [constants.READ_WRITE_SCOPE]
 creds = GoogleCredentials(constants.TOKEN_JSON_FILE, constants.CREDENTIALS_JSON_FILE, scopes)
 creds = creds.get_oauth_credentials()
 service = GoogleService(creds, constants.GOOGLE_PRODUCT, constants.PRODUCT_VERSION)
-threads = service.read_single_range(constants.SPREADSHEET_ID, constants.THREAD_ID_SHEET_RANGE)
+GLOBAL_THREADS = service.read_single_range(constants.SPREADSHEET_ID, constants.THREAD_ID_SHEET_RANGE)
 
 def is_first_responder(thread_id: str, threads: list) -> bool:
     if threads and thread_id:
@@ -21,7 +21,7 @@ def create_filtered_dict(_dict: dict) -> dict:
     room_path_list = _dict['message']['thread']['name'].split('/')
     thread_id = room_path_list[3]
     room_id = room_path_list[1]
-    responder_flag = is_first_responder(thread_id, threads)
+    responder_flag = is_first_responder(thread_id, GLOBAL_THREADS)
     return {
         'timestamp': _dict['eventTime'],
         'email': _dict['message']['sender']['email'],
@@ -40,3 +40,5 @@ def update_google_spreadsheet(record):
         constants.SHEET_RANGE, 
         constants.VALUE_INPUT_OPTION
         )
+    global GLOBAL_THREADS
+    GLOBAL_THREADS = service.read_single_range(constants.SPREADSHEET_ID, constants.THREAD_ID_SHEET_RANGE)
