@@ -1,3 +1,4 @@
+from tests.test_utils import BLANK_STRING
 import pytest 
 from common import helpers
 
@@ -5,6 +6,8 @@ from common import helpers
 _LIST = ["Test"]
 _NULL = None
 _INT = 6
+_STRING = "Test"
+ALT_STRING = "12"
 EMPTY_LIST = []
 EMPTY_STRING = ''
 NESTED_LIST = [["Test 1"], ["Test 2"]]
@@ -38,3 +41,28 @@ class TestFlattenListFunction:
     
     def test_empty_list(self):
         assert helpers.flatten_list(EMPTY_LIST) == _NULL
+        
+class TestStringIsUnique:
+    def test_duplicate_string(self):
+        assert helpers.string_is_unique(_STRING, _LIST) == False
+        
+    def test_unique_string(self):
+        assert helpers.string_is_unique(ALT_STRING, _LIST) == True
+        
+    def test_empty_string(self):
+        assert helpers.string_is_unique(EMPTY_STRING, _LIST) is None
+        
+    def test_empty_list(self):
+        assert helpers.string_is_unique(_STRING, EMPTY_LIST) is None
+        
+    def test_null_string(self):
+        assert helpers.string_is_unique(_NULL, _LIST) is None
+    
+    def test_null_list(self):
+        assert helpers.string_is_unique(_STRING, _NULL) is None
+        
+    def test_null_string_null_list(self):
+        assert helpers.string_is_unique(_NULL, _NULL) is None
+        
+    def test_empty_string_empty_string_list(self):
+        assert helpers.string_is_unique(EMPTY_STRING, EMPTY_STRING) is None
