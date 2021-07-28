@@ -39,7 +39,6 @@ def on_event():
     elif event['type'] == 'MESSAGE':
         threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
         filtered_event_dict = u.create_filtered_dict(event)
-        user_id = filtered_event_dict['user_id']
         responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
         values = [
             filtered_event_dict['email'],
@@ -51,7 +50,7 @@ def on_event():
             filtered_event_dict['timestamp'],
             ]
         u.update_google_spreadsheet(values, service)
-        text = "Got you down as a {}, <{}>!".format('first responder' if responder_flag == True else 'participator', user_id)
+        text = "Got you down as a {}, <{}>!".format('first responder' if responder_flag == True else 'participator', filtered_event_dict['user_id'])
     else:
         return "It's been real"
     return json.jsonify({'text': text})
