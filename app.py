@@ -39,18 +39,21 @@ def on_event():
     elif event['type'] == c.MESSAGE:
         threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
         filtered_event_dict = u.create_filtered_dict(event)
-        responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
-        values = [
-            filtered_event_dict.get('email'),
-            filtered_event_dict.get('room_id'),
-            filtered_event_dict.get('room_name'),
-            filtered_event_dict.get('thread_id'),
-            filtered_event_dict.get('message'),
-            responder_flag,
-            filtered_event_dict.get('timestamp'),
-            ]
-        u.update_google_spreadsheet(values, service)
-        text = "Got you down as a {}, <{}>!".format('first responder' if responder_flag == True else 'participator', filtered_event_dict['user_id'])
+        if filtered_event_dict:
+            responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
+            values = [
+                filtered_event_dict.get('email'),
+                filtered_event_dict.get('room_id'),
+                filtered_event_dict.get('room_name'),
+                filtered_event_dict.get('thread_id'),
+                filtered_event_dict.get('message'),
+                responder_flag,
+                filtered_event_dict.get('timestamp'),
+                ]
+            u.update_google_spreadsheet(values, service)
+            text = "Got you down as a {}, <{}>!".format('first responder' if responder_flag == True else 'participator', filtered_event_dict['user_id'])
+        else:
+            text = "Error: Google did not send your message in the correct format. Please try again."
     else:
         return "It's been real"
     return json.jsonify({'text': text})
