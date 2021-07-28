@@ -20,8 +20,11 @@ def flatten_list(_list: list) -> list:
                 return list(chain.from_iterable(_list))    
             
 def get_room_thread_id_dict(_dict: dict) -> dict:
-    room_parameters = _dict.get('thread', {}).get('name', '    ').split('/')
-    return dict(room_id=room_parameters[c.ROOM_ID_INDEX], thread_id=room_parameters[c.THREAD_ID_INDEX])
+    room_parameters = _dict.get('thread', {}).get('name', '').split('/')
+    if len(room_parameters) > 1:
+        return dict(room_id=room_parameters[c.ROOM_ID_INDEX], thread_id=room_parameters[c.THREAD_ID_INDEX])
+    else:
+        return {}
 
 def is_nested_list(_list: list) -> bool:
     if _list:
