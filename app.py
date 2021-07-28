@@ -8,7 +8,6 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from dotenv import load_dotenv
 
 from common import constants as c
-from common import helpers as h
 from models.GoogleCredentials import GoogleCredentials
 from models.GoogleService import GoogleService
 import utils as u
@@ -54,12 +53,16 @@ def on_event():
     if event:
         if event.get('type') == c.ADDED:
             room_name = event.get('space', {}).get('displayName')
+            app.logger.info(f"Google bot added to {room_name}")
             text = 'Thanks for adding me to *{}*!'.format(room_name if room_name else 'this chat')
         elif event.get('type') == c.MESSAGE:
+            app.logger.info(f"Someone mentioned the bot in Google Chat")
             app.logger.info(f"Pulling in list of thread IDs")
             threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
-            app.logger.info(f"Pulled the following list of threads: {threads}")
+            app.logger.info(f"Pulled the following list of threads ID: {threads}")
+            app.logger.info("Cleaning up event response from Google Chat")
             filtered_event_dict = u.create_filtered_dict(event)
+            app.logger.info(f"Response event cleaned. Result: {filtered_event_dict}")
             if filtered_event_dict:
                 responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
                 values = [
@@ -68,7 +71,9 @@ def on_event():
                     filtered_event_dict.get('message'), responder_flag,
                     filtered_event_dict.get('timestamp'),
                     ]
+                app.logger.info(f"Beginning to import {values}")
                 u.update_google_spreadsheet(values, service)
+                app.logger.info(f"Values imported")
                 responder_type = 'first responder' if responder_flag == True else 'participator'
                 text = "Got you down as a {}, <{}>!".format(responder_type, filtered_event_dict['user_id'])
             else:
