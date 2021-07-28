@@ -34,9 +34,9 @@ app = Flask(__name__)
 def on_event():
     """Handles an event from Google Chat."""
     event = request.get_json()
-    if event['type'] == 'ADDED_TO_SPACE':
+    if event['type'] == c.ADDED:
         text = 'Thanks for adding me to *%s*!' % (event['space']['displayName'] if event['space']['displayName'] else 'this chat')
-    elif event['type'] == 'MESSAGE':
+    elif event['type'] == c.MESSAGE:
         threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
         filtered_event_dict = u.create_filtered_dict(event)
         responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
