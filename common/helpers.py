@@ -5,7 +5,7 @@ from common import constants as c
 
 def create_values_dict(values: list) -> dict:
     return {
-        'values': values,
+        'values': [values],
     }
 
 def flatten_list(_list: list) -> list:

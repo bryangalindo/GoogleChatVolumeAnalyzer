@@ -1,4 +1,3 @@
-from tests.test_utils import BLANK_STRING
 import pytest 
 from common import helpers
 
@@ -15,15 +14,15 @@ NESTED_LIST = [["Test 1"], ["Test 2"]]
 class TestCreateValuesDictFunction:
     def test_valid_values(self):
         _dict = helpers.create_values_dict(_LIST)
-        assert _dict == {'values': _LIST}
+        assert _dict == {'values': [_LIST]}
         
     def test_null_value(self):
         _dict = helpers.create_values_dict(_NULL)
-        assert _dict == {'values': _NULL}
+        assert _dict == {'values': [_NULL]}
         
     def test_empty_string(self):
         _dict = helpers.create_values_dict(EMPTY_STRING)
-        assert _dict == {'values': EMPTY_STRING}
+        assert _dict == {'values': [EMPTY_STRING]}
 
 class TestFlattenListFunction:
     def test_valid_list(self):
