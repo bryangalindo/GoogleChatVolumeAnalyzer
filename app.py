@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os 
+from logging.config import dictConfig
 
 from flask import Flask, request, json
 import sentry_sdk
@@ -13,6 +14,22 @@ from models.GoogleService import GoogleService
 import utils as u
 
 load_dotenv()
+
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://flask.logging.wsgi_errors_stream',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
 
 sentry_sdk.init(
     dsn=os.getenv("SENTRY_DSN"),
