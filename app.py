@@ -41,13 +41,13 @@ def on_event():
         filtered_event_dict = u.create_filtered_dict(event)
         responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
         values = [
-            filtered_event_dict['email'],
-            filtered_event_dict['room_id'],
-            filtered_event_dict['room_name'],
-            filtered_event_dict['thread_id'],
-            filtered_event_dict['message'],
+            filtered_event_dict.get('email'),
+            filtered_event_dict.get('room_id'),
+            filtered_event_dict.get('room_name'),
+            filtered_event_dict.get('thread_id'),
+            filtered_event_dict.get('message'),
             responder_flag,
-            filtered_event_dict['timestamp'],
+            filtered_event_dict.get('timestamp'),
             ]
         u.update_google_spreadsheet(values, service)
         text = "Got you down as a {}, <{}>!".format('first responder' if responder_flag == True else 'participator', filtered_event_dict['user_id'])
