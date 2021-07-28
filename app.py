@@ -39,7 +39,7 @@ def on_event():
     elif event['type'] == 'MESSAGE':
         threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
         filtered_event_dict = u.create_filtered_dict(event)
-        responder_flag = h.is_first_responder(filtered_event_dict['thread_id'], threads)
+        responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
         values = [
             filtered_event_dict['email'],
             filtered_event_dict['room_id'],
