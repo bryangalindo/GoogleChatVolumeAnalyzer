@@ -49,7 +49,7 @@ def on_event():
             responder_flag,
             filtered_event_dict['timestamp'],
             ]
-        u.update_google_spreadsheet(values)
+        u.update_google_spreadsheet(values, service)
         text = "Got you down as a {}!".format('first responder' if filtered_event_dict['is_first_responder'] == True else 'participator')
     else:
         return "It's been real"
