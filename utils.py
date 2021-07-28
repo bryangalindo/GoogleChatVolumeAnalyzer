@@ -21,6 +21,7 @@ def create_filtered_dict(_dict: dict) -> dict:
             'thread_id': thread_id,
             'room_name': root_message_dict['space']['displayName'],
             'message': root_message_dict['argumentText'],
+            'user_id': root_message_dict['sender']['name'],
         }
 
 def update_google_spreadsheet(record, service):
