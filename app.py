@@ -35,7 +35,8 @@ def on_event():
     """Handles an event from Google Chat."""
     event = request.get_json()
     if event['type'] == c.ADDED:
-        text = 'Thanks for adding me to *%s*!' % (event['space']['displayName'] if event['space']['displayName'] else 'this chat')
+        room_name = event.get('space', {}).get('displayName')
+        text = 'Thanks for adding me to *{}*!'.format(room_name if room_name else 'this chat')
     elif event['type'] == c.MESSAGE:
         threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
         filtered_event_dict = u.create_filtered_dict(event)
