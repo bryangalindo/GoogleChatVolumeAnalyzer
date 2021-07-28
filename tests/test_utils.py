@@ -32,16 +32,21 @@ MISSING_MESSAGE_KEY_RESPONSE_DICT = {
     'thread': {'name': 'spaces/A/threads/B', 'retentionSettings': {'state': 'PERMANENT'}}
     },
     }
-MISSING_ARGUMENT_TEXT_KEY_RESPONSE_DICT = {
+MISSING_ALL_KEYS_RESPONSE_DICT = {
     'message': {'missing': 'Test',
-    'createTime': '2021-07-27T05:50:55.079839Z',
-    'sender': {'avatarUrl': 'url', 'displayName': 'Test User', 'domainId': 'domainId',
-               'email': 'test@test.com', 'name': 'users/123456', 'type': 'HUMAN'},
-    'space': {'displayName': 'Room Name', 'name': 'spaces/A', 
+    'missingTimeStamp': '2021-07-27T05:50:55.079839Z',
+    'missingSender': {'avatarUrl': 'url', 'displayName': 'Test User', 'domainId': 'domainId',
+               'missingEmail': 'test@test.com', 'missingSenderID': 'users/123456', 'type': 'HUMAN'},
+    'space': {'missingRoomName': 'Room Name', 'name': 'spaces/A', 
               'threaded': True,'type': 'ROOM'},
-    'thread': {'name': 'spaces/A/threads/B', 'retentionSettings': {'state': 'PERMANENT'}}
+    'missingThread': {'missingRoomName': 'spaces/A/threads/B', 'retentionSettings': {'state': 'PERMANENT'}}
     },
     }
+EXPECTED_EMPTY_DICT = {
+    'timestamp': None, 'email': None,
+    'room_id': None, 'thread_id': None, 'room_name': None,
+    'message': None, 'user_id': None, 
+}
 
 class TestIsFirstResponderFunction:
     def test_null_thread_list(self):
@@ -74,10 +79,17 @@ class TestCreateFilteredDict:
         
     def test_missing_message_key(self):
         assert u.create_filtered_dict(MISSING_MESSAGE_KEY_RESPONSE_DICT) is None
+                
+    def test_null_dict(self):
+        assert u.create_filtered_dict(_NULL) is None
         
-    def test_missing_argument_text_key(self):
-        EXPECTED_FILTERED_DICT['message'] = None
-        assert u.create_filtered_dict(MISSING_ARGUMENT_TEXT_KEY_RESPONSE_DICT) == EXPECTED_FILTERED_DICT
+    def test_blank_string_as_dict(self):
+        assert u.create_filtered_dict(BLANK_STRING) is None
+        
+    def test_all_missing_keys(self):
+        print(u.create_filtered_dict(MISSING_ALL_KEYS_RESPONSE_DICT))
+        assert u.create_filtered_dict(MISSING_ALL_KEYS_RESPONSE_DICT) == EXPECTED_EMPTY_DICT
+        
         
         
         
