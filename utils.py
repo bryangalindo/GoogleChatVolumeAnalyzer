@@ -16,12 +16,12 @@ def create_filtered_dict(_dict: dict) -> dict:
         room_id = room_parameters[1]
         return {
             'timestamp': root_message_dict.get('createTime'),
-            'email': root_message_dict['sender']['email'],
+            'email': root_message_dict.get('sender', {}).get('email'),
             'room_id': room_id,
             'thread_id': thread_id,
-            'room_name': root_message_dict['space']['displayName'],
+            'room_name': root_message_dict.get('space', {}).get('displayName'),
             'message': root_message_dict.get('argumentText'),
-            'user_id': root_message_dict['sender']['name'],
+            'user_id': root_message_dict.get('sender', {}).get('name'),
         }
 
 def update_google_spreadsheet(record, service):
