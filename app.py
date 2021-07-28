@@ -39,7 +39,9 @@ def on_event():
             room_name = event.get('space', {}).get('displayName')
             text = 'Thanks for adding me to *{}*!'.format(room_name if room_name else 'this chat')
         elif event.get('type') == c.MESSAGE:
+            app.logger.info(f"Pulling in list of thread IDs")
             threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
+            app.logger.info(f"Pulled the following list of threads: {threads}")
             filtered_event_dict = u.create_filtered_dict(event)
             if filtered_event_dict:
                 responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
