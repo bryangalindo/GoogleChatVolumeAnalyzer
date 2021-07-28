@@ -15,12 +15,12 @@ def create_filtered_dict(_dict: dict) -> dict:
         thread_id = room_parameters[3]
         room_id = room_parameters[1]
         return {
-            'timestamp': _dict['eventTime'],
+            'timestamp': root_message_dict.get('createTime'),
             'email': root_message_dict['sender']['email'],
             'room_id': room_id,
             'thread_id': thread_id,
             'room_name': root_message_dict['space']['displayName'],
-            'message': root_message_dict['argumentText'],
+            'message': root_message_dict.get('argumentText'),
             'user_id': root_message_dict['sender']['name'],
         }
 
