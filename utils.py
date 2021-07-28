@@ -24,7 +24,7 @@ def create_filtered_dict(_dict: dict) -> dict:
             }
 
 def update_google_spreadsheet(record, service):
-    body = h.create_values_dict([record])
+    body = h.create_values_dict(record)
     service.insert_row_into_spreadsheet(
         body, 
         c.SPREADSHEET_ID, 
