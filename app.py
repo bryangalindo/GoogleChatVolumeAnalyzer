@@ -34,29 +34,30 @@ app = Flask(__name__)
 def on_event():
     """Handles an event from Google Chat."""
     event = request.get_json()
-    if event['type'] == c.ADDED:
-        room_name = event.get('space', {}).get('displayName')
-        text = 'Thanks for adding me to *{}*!'.format(room_name if room_name else 'this chat')
-    elif event['type'] == c.MESSAGE:
-        threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
-        filtered_event_dict = u.create_filtered_dict(event)
-        if filtered_event_dict:
-            responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
-            values = [
-                filtered_event_dict.get('email'),
-                filtered_event_dict.get('room_id'),
-                filtered_event_dict.get('room_name'),
-                filtered_event_dict.get('thread_id'),
-                filtered_event_dict.get('message'),
-                responder_flag,
-                filtered_event_dict.get('timestamp'),
-                ]
-            u.update_google_spreadsheet(values, service)
-            text = "Got you down as a {}, <{}>!".format('first responder' if responder_flag == True else 'participator', filtered_event_dict['user_id'])
+    if event:
+        if event.get('type') == c.ADDED:
+            room_name = event.get('space', {}).get('displayName')
+            text = 'Thanks for adding me to *{}*!'.format(room_name if room_name else 'this chat')
+        elif event.get('type') == c.MESSAGE:
+            threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
+            filtered_event_dict = u.create_filtered_dict(event)
+            if filtered_event_dict:
+                responder_flag = u.is_first_responder(filtered_event_dict['thread_id'], threads)
+                values = [
+                    filtered_event_dict.get('email'),
+                    filtered_event_dict.get('room_id'),
+                    filtered_event_dict.get('room_name'),
+                    filtered_event_dict.get('thread_id'),
+                    filtered_event_dict.get('message'),
+                    responder_flag,
+                    filtered_event_dict.get('timestamp'),
+                    ]
+                u.update_google_spreadsheet(values, service)
+                text = "Got you down as a {}, <{}>!".format('first responder' if responder_flag == True else 'participator', filtered_event_dict['user_id'])
+            else:
+                text = "Error: Google did not send your message in the correct format. Please try again."
         else:
-            text = "Error: Google did not send your message in the correct format. Please try again."
-    else:
-        return "It's been real"
+            return "It's been real"
     return json.jsonify({'text': text})
     
 if __name__ == '__main__':
