@@ -11,13 +11,9 @@ def is_first_responder(thread_id: str, threads: list) -> bool:
 def create_filtered_dict(_dict: dict) -> dict:
     root_message_dict = _dict.get('message')
     if root_message_dict:
-        room_parameters = root_message_dict.get('thread', {}).get('name', '').split('/')
-        if room_parameters:
-            thread_id = room_parameters[3]
-            room_id = room_parameters[1]
-        else:
-            thread_id = ''
-            room_id = ''
+        room_parameters = root_message_dict.get('thread', {}).get('name', '    ').split('/')
+        thread_id = room_parameters[3]
+        room_id = room_parameters[1]
         return {
             'timestamp': root_message_dict.get('createTime'),
             'email': root_message_dict.get('sender', {}).get('email'),
