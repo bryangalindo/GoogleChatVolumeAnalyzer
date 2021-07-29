@@ -10,12 +10,14 @@ class GoogleService:
     
     def insert_row_into_spreadsheet(self, body, spreadsheet_id, sheet_range, value_input_option):
         self.__create_service()
-        self.service.spreadsheets().values().append(
+        response_body = self.service.spreadsheets().values().append(
             spreadsheetId=spreadsheet_id,
             range=sheet_range,
             valueInputOption=value_input_option,
             body=body,).execute()
-        
+        updates = response_body.get('updates', '')
+        return updates 
+    
     def read_single_range(self, spreadsheet_id, sheet_range):
         self.__create_service()
         result = self.service.spreadsheets().values().get(
