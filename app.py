@@ -73,7 +73,7 @@ def on_event():
                     ]
                 app.logger.info(f"Beginning to import {values}")
                 update_response = u.update_google_spreadsheet(values, service)
-                print(update_response)
+                app.logger.info(f"{update_response}")
                 if update_response:
                     app.logger.info(f"Import finished")
                 else:
