@@ -72,8 +72,11 @@ def on_event():
                     filtered_event_dict.get('timestamp'),
                     ]
                 app.logger.info(f"Beginning to import {values}")
-                u.update_google_spreadsheet(values, service)
-                app.logger.info(f"Values imported")
+                update_response = u.update_google_spreadsheet(values, service)
+                if update_response:
+                    app.logger.info(f"Import finished")
+                else:
+                    app.logger.debug(f"Google Sheets import was not successful.")
                 responder_type = 'first responder' if responder_flag == True else 'participator'
                 text = "Got you down as a {}, <{}>!".format(responder_type, filtered_event_dict['user_id'])
             else:
