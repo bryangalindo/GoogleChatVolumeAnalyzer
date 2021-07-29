@@ -72,9 +72,9 @@ def on_event():
                     filtered_event_dict.get('timestamp'),
                     ]
                 app.logger.info(f"Beginning to import {values}")
-                update_response = u.update_google_spreadsheet(values, service)
-                app.logger.info(f"{update_response}")
-                if update_response:
+                u.update_google_spreadsheet(values, service)
+                updated_threads = service.read_single_range(c.SPREADSHEET_ID, c.THREAD_ID_SHEET_RANGE)
+                if len(updated_threads) > len(threads):
                     app.logger.info(f"Import finished")
                 else:
                     app.logger.debug(f"Google Sheets import was not successful.")
