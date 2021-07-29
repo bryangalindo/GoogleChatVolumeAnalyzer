@@ -10,7 +10,7 @@ class GoogleService:
     
     def insert_row_into_spreadsheet(self, body, spreadsheet_id, sheet_range, value_input_option):
         self.__create_service()
-        updates = response_body = self.service.spreadsheets().values().append(
+        updates = self.service.spreadsheets().values().append(
             spreadsheetId=spreadsheet_id,
             range=sheet_range,
             valueInputOption=value_input_option,
