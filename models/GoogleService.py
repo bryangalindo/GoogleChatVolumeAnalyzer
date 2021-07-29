@@ -14,8 +14,7 @@ class GoogleService:
             spreadsheetId=spreadsheet_id,
             range=sheet_range,
             valueInputOption=value_input_option,
-            body=body,).execute()
-        return updates 
+            body=body,).execute() 
     
     def read_single_range(self, spreadsheet_id, sheet_range):
         self.__create_service()
