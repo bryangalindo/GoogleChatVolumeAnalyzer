@@ -15,6 +15,7 @@ class GoogleService:
             range=sheet_range,
             valueInputOption=value_input_option,
             body=body,).execute()
+        print(response_body)
         updates = response_body.get('updates', '')
         return updates 
     
