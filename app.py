@@ -79,13 +79,14 @@ def on_event():
                 else:
                     app.logger.debug(f"Google Sheets import was not successful.")
                     return json.jsonify({'text': "Error: Your response was not submitted. Please try again"})
-                # responder_type = 'first responder' if responder_flag == True else 'participator'
-                return 
+                responder_type = 'first responder' if responder_flag == True else 'participator'
+                app.logger.info(f"{filtered_event_dict.get('email')} was recorded as a {responder_type}")
+                return ''
             else:
                 return json.jsonify({'text': "Error: Google did not send your message in the correct format. Please try again."})
         else:
             return "It's been real"
-    return
+    return ''
     
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
