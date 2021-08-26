@@ -54,7 +54,7 @@ def on_event():
         if event.get('type') == c.ADDED:
             room_name = event.get('space', {}).get('displayName')
             app.logger.info(f"Google bot added to {room_name}")
-            text = 'Thanks for adding me to *{}*!'.format(room_name if room_name else 'this chat')
+            return json.jsonify({'text': 'Thanks for adding me to *{}*!'.format(room_name if room_name else 'this chat')})
         elif event.get('type') == c.MESSAGE:
             app.logger.info(f"Someone mentioned the bot in Google Chat")
             app.logger.info(f"Pulling in list of thread IDs")
