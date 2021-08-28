@@ -46,6 +46,10 @@ service = GoogleService(creds, c.GOOGLE_PRODUCT, c.PRODUCT_VERSION)
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def index():
+    return 'I\'m working!'
+
 @app.route('/', methods=['POST'])
 def on_event():
     """Handles an event from Google Chat."""
@@ -89,4 +93,4 @@ def on_event():
     return ''
     
 if __name__ == '__main__':
-    app.run(port=8000, debug=True)
+    app.run(host="0.0.0.0", port=8000)
